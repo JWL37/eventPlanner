@@ -1,0 +1,8 @@
+{
+    email example@domenname.com
+}
+
+
+nestjs.domenname.localhost {
+    reverse_proxy nextjs_app:3000
+}

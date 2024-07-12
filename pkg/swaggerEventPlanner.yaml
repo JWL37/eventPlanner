@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+  title: Event Planner API
+  version: 1.0.0
+
+paths:
+  /events/create/:id:
+    post:
+      summary: Создать новое мероприятие
+      tags:
+        - Events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEventResponse'
+        default:
+          description:  ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /events/:id:
+    get:
+      summary: Получить список мероприятий
+      tags:
+        - Events
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEventsResponse'
+        default:
+          description:  ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/register:
+    post:
+      summary: Регистрация нового пользователя
+      tags:
+        - Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        default:
+          description:  ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/login:
+    post:
+      summary: Вход пользователя
+      tags:
+        - Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        default:
+          description:  ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /contacts:
+    get:
+      summary: Получить список контактов
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListContactsResponse'
+  /contacts/select:
+    post:
+      summary: Выбрать контакты
+      tags:
+        - Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectContactsRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectContactsResponse'
+components:
+  schemas:
+    CreateEventRequest:
+      type: object
+      properties:
+        nameEvent:
+          type: string
+          enum:
+            - встреча
+            - собрание
+            - лекция
+            - хакатон
+            - собеседование
+        shape:
+          type: string
+          enum:
+            - очно
+            - дистант
+        place:
+          type: string
+          example: IT-5(или ссылка на zoom)
+        beginTime:
+          type: string
+          format: 2022-07-01T15:00:00.000Z
+        timeDuration:
+          type: string
+          description: Длительность мероприятия
+          example: 1 час 30 минуты
+    CreateEventResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    ListEventsResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nameEvent:
+          type: string
+          enum:
+            - встреча
+            - собрание
+            - лекция
+            - хакатон
+            - собеседование
+        shape:
+          type: string
+          enum:
+            - очно
+            - дистант
+        place:
+          type: string
+          example: IT-5(или ссылка на zoom)
+        beginTime:
+          type: string
+          format: 2022-07-01T15:00:00.000Z
+        timeDuration:
+          type: string
+          description: Длительность мероприятия
+          example: 1 час 30 минуты
+   
+    RegisterRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    RegisterResponse:
+      type: object
+      properties:
+        user_id:
+          type: integer
+    LoginRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+  
+    ListContactsResponse:
+      type: object
+      properties:
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+    SelectContactsRequest:
+      type: object
+      properties:
+        contact_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+    SelectContactsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+       
+    Contact:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: Иванов Иван
+        email:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
