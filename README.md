@@ -31,7 +31,7 @@ EventPlanner — это учебное приложение для планир�
 
     ```sh
     git clone https://github.com/JWL37/eventPlanner.git
-    cd eventPlanner
+    cd eventPlanner/docker
     ```
 2. Соберите и запустите контейнеры:
     ```sh
