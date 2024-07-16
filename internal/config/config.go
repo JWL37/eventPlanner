@@ -15,7 +15,7 @@ func ConfigInit(cfg *Config) {
 	if err := godotenv.Load(); err != nil {
 		log.Fatalf("Error loading .env file")
 	}
-	err := env.Parse(&cfg)
+	err := env.Parse(cfg)
 	if err != nil {
 		log.Fatalf("unable to parse ennvironment variables: %e", err)
 	}
