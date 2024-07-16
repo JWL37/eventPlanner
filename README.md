@@ -30,7 +30,7 @@ EventPlanner — это учебное приложение для планир�
 1. Клонируйте репозиторий:
 
     ```sh
-    git clone https://github.com/yourusername/eventPlanner.git
+    git clone https://github.com/JWL37/eventPlanner.git
     cd eventPlanner
     ```
 2. Соберите и запустите контейнеры:
