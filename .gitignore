@@ -1,5 +1,7 @@
 ##### Windows
 # Windows thumbnail cache files
+.idea
+
 Thumbs.db
 Thumbs.db:encryptable
 ehthumbs.db
