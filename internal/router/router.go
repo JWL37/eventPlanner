@@ -1,11 +1,11 @@
 package router
 
 import (
-	"eventPlanner/internal/service"
+	"eventPlanner/internal/services"
 	"github.com/labstack/echo/v4"
 )
 
-func InitRouter(userService service.UserService, eventService service.EventService, contactService service.ContactService, e *echo.Echo) {
+func InitRouter(userService services.UserService, eventService services.EventService, contactService services.ContactService, e *echo.Echo) {
 	e.POST("/auth/register", userService.Register)
 	e.POST("/auth/login", userService.Login)
 
@@ -13,5 +13,4 @@ func InitRouter(userService service.UserService, eventService service.EventServi
 	e.GET("/events/:id", eventService.GetAllEvents)
 
 	e.GET("/contacts", contactService.GetAllContacts)
-	e.POST("/contacts/select", contactService.SelectContacts)
 }

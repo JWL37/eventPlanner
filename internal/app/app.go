@@ -4,9 +4,13 @@ import (
 	"context"
 	"eventPlanner/internal/config"
 	"eventPlanner/internal/database"
-	"eventPlanner/internal/repository/Implementations"
+	"eventPlanner/internal/repository/implemContactRepository"
+	"eventPlanner/internal/repository/implemEventRepository"
+	"eventPlanner/internal/repository/implemUserRepository"
 	"eventPlanner/internal/router"
-	Implementations2 "eventPlanner/internal/service/Implementations"
+	"eventPlanner/internal/services/implemContactService"
+	"eventPlanner/internal/services/implemEventService"
+	"eventPlanner/internal/services/implemUserService"
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -22,13 +26,14 @@ func RunApp(cfg config.Config) {
 	}
 	defer conn.Close(context.Background())
 
-	userRepo := Implementations.NewUserRepository(conn)
-	eventRepo := Implementations.NewEventRepository(conn)
-	contactRepo := Implementations.NewContactRepository(conn)
+	userRepo := implemUserRepository.NewUserRepository(conn)
+	userService := implemUserService.NewUserService(userRepo)
 
-	userService := Implementations2.NewUserService(userRepo)
-	eventService := Implementations2.NewEventService(eventRepo)
-	contactService := Implementations2.NewContactService(contactRepo)
+	eventRepo := implemEventRepository.NewEventRepository(conn)
+	eventService := implemEventService.NewEventService(eventRepo)
+
+	contactRepo := implemContactRepository.NewContactRepository(conn)
+	contactService := implemContactService.NewContactService(contactRepo)
 
 	e := echo.New()
 
