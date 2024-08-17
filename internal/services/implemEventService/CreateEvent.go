@@ -3,6 +3,7 @@ package implemEventService
 import (
 	"eventPlanner/internal/models"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"net/http"
 	"strconv"
 )
@@ -24,8 +25,7 @@ func (s *eventService) CreateEvent(c echo.Context) error {
 	for _, el := range event.ListMembers {
 		memberID, _ := strconv.ParseInt(el, 10, 64)
 		if err := s.repo.CreateEvent(memberID, *event); err != nil {
-			// TODO: вместо return записывать ошибку в log
-			return c.JSON(http.StatusInternalServerError, err.Error())
+			log.Error(http.StatusInternalServerError, err.Error())
 		}
 	}
 	return c.JSON(http.StatusCreated, event)

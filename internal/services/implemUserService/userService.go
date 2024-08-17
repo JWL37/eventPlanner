@@ -1,15 +1,15 @@
 package implemUserService
 
 import (
-	"eventPlanner/internal/repository"
+	"eventPlanner/internal/repositories"
 	"eventPlanner/internal/services"
 )
 
 type userService struct {
-	repo repository.UserRepository
+	repo repositories.UserRepository
 }
 
-func NewUserService(repo repository.UserRepository) services.UserService {
+func NewUserService(repo repositories.UserRepository) services.UserService {
 	return &userService{
 		repo: repo,
 	}

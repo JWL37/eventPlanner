@@ -1,7 +1,7 @@
 package implemContactRepository
 
 import (
-	"eventPlanner/internal/repository"
+	"eventPlanner/internal/repositories"
 	"github.com/jackc/pgx/v4"
 )
 
@@ -9,6 +9,6 @@ type contactRepository struct {
 	conn *pgx.Conn
 }
 
-func NewContactRepository(conn *pgx.Conn) repository.ContactRepository {
+func NewContactRepository(conn *pgx.Conn) repositories.ContactRepository {
 	return &contactRepository{conn: conn}
 }

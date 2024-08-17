@@ -1,14 +1,14 @@
 package implemContactService
 
 import (
-	"eventPlanner/internal/repository"
+	"eventPlanner/internal/repositories"
 	"eventPlanner/internal/services"
 )
 
 type contactService struct {
-	repo repository.ContactRepository
+	repo repositories.ContactRepository
 }
 
-func NewContactService(repo repository.ContactRepository) services.ContactService {
+func NewContactService(repo repositories.ContactRepository) services.ContactService {
 	return &contactService{repo: repo}
 }

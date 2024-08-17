@@ -11,7 +11,7 @@ const (
 )
 
 func (r *PostgresUserRepository) CreateUser(user models.User) (int, error) {
-	_, err := r.FindUser(user.Name)
+	_, err := r.FindUser(user.Name, user.Password)
 	if err.Error() != "user not found" {
 		return 0, fmt.Errorf("error creating user: %w", err)
 	}

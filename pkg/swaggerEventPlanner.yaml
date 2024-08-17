@@ -1,9 +1,59 @@
-openapi: 3.0.0
+openapi: 3.0.3
+
 info:
   title: Event Planner API
-  version: 1.0.0
-
+  version: 2.0.0
+servers:
+  - url: http://localhost:8082/
 paths:
+  /auth/register:
+    post:
+      summary: Регистрация нового пользователя
+      tags:
+        - Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        default:
+          description: ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/login:
+    post:
+      summary: Вход пользователя
+      tags:
+        - Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        default:
+          description: ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /events/create/:id:
     post:
       summary: Создать новое мероприятие
@@ -46,54 +96,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /auth/register:
-    post:
-      summary: Регистрация нового пользователя
-      tags:
-        - Authorization
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterRequest'
-      responses:
-        '200':
-          description: Успешный ответ
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegisterResponse'
-        default:
-          description:  ошибка
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /auth/login:
-    post:
-      summary: Вход пользователя
-      tags:
-        - Authorization
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: Успешный ответ
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        default:
-          description:  ошибка
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+
 
   /contacts:
     get:
@@ -107,24 +110,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListContactsResponse'
-  /contacts/select:
-    post:
-      summary: Выбрать контакты
-      tags:
-        - Contacts
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SelectContactsRequest'
-      responses:
-        '200':
-          description: Успешный ответ
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelectContactsResponse'
+
 components:
   schemas:
     CreateEventRequest:
@@ -153,6 +139,12 @@ components:
           type: string
           description: Длительность мероприятия
           example: 1 час 30 минуты
+        members:
+          type: array
+          items:
+              type: string
+          example: [1,4,5,3]
+          description: массив id участников мероприятия
     CreateEventResponse:
       type: object
       properties:
@@ -194,11 +186,17 @@ components:
           type: string
           description: Длительность мероприятия
           example: 1 час 30 минуты
-   
+        members:
+          type: array
+          items:
+            type: string
+          example: [ 1,4,5,3 ]
+          description: массив id участников мероприятия
+
     RegisterRequest:
       type: object
       properties:
-        name:
+        username:
           type: string
         email:
           type: string
@@ -221,7 +219,7 @@ components:
       properties:
         id:
           type: integer
-  
+
     ListContactsResponse:
       type: object
       properties:
@@ -229,19 +227,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contact'
-    SelectContactsRequest:
-      type: object
-      properties:
-        contact_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Contact'
-    SelectContactsResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-       
+
     Contact:
       type: object
       required:

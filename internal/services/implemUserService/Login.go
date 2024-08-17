@@ -12,7 +12,7 @@ func (s *userService) Login(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Invalid request")
 	}
 
-	user, err := s.repo.FindUser(u.Name)
+	user, err := s.repo.FindUser(u.Name, u.Password)
 	if err != nil || user.Password != u.Password {
 		return c.JSON(http.StatusUnauthorized, "Invalid username or password")
 	}

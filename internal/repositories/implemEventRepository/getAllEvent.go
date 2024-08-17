@@ -24,13 +24,13 @@ func (r *eventRepository) GetAllEvents(userID int64) ([]models.Event, error) {
 	var events []models.Event
 	for rows.Next() {
 		var event models.Event
-		err := rows.Scan(&event.ID, &event.NameEvent, &event.Shape, &event.Place, &event.BeginTime, &event.Duration)
+		err = rows.Scan(&event.ID, &event.NameEvent, &event.Shape, &event.Place, &event.BeginTime, &event.Duration)
 		if err != nil {
 			return nil, err
 		}
 		events = append(events, event)
 	}
-	if err := rows.Err(); err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 	return events, nil

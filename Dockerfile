@@ -1,6 +1,6 @@
 FROM golang:latest
 
-WORKDIR /RE_WEBSITE
+WORKDIR /eventPlanner
 
 COPY go.mod go.sum ./
 RUN go mod download

@@ -11,6 +11,7 @@ func (s *userService) Register(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid request")
 	}
+
 	id, err := s.repo.CreateUser(*u)
 	if err != nil {
 		return c.JSON(http.StatusConflict, err.Error())

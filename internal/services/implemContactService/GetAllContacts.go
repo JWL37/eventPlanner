@@ -8,7 +8,7 @@ import (
 func (s *contactService) GetAllContacts(c echo.Context) error {
 	contacts, err := s.repo.GetAllContacts()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
-	return c.JSON(http.StatusOK, map[string]interface{}{"contacts": contacts})
+	return c.JSON(http.StatusOK, contacts)
 }

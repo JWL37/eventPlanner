@@ -9,11 +9,10 @@ import (
 )
 
 const (
-	//createUseQuery = `INSERT INTO users (username, email, password, status) VALUES ($1, $2, $3, $4) RETURNING id`
 	findUserQuery = `SELECT id, username, email, password, status FROM users WHERE username=$1`
 )
 
-func (r *PostgresUserRepository) FindUser(username string) (*models.User, error) {
+func (r *PostgresUserRepository) FindUser(username, password string) (*models.User, error) {
 	var user models.User
 	err := r.conn.QueryRow(context.Background(), findUserQuery, username).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Status)
 	if err != nil {
@@ -21,6 +20,9 @@ func (r *PostgresUserRepository) FindUser(username string) (*models.User, error)
 			return nil, fmt.Errorf("user not found")
 		}
 		return nil, fmt.Errorf("error finding user: %w", err)
+	}
+	if password != user.Password {
+		return nil, fmt.Errorf("invalid password")
 	}
 	return &user, nil
 }

@@ -4,9 +4,9 @@ import (
 	"context"
 	"eventPlanner/internal/config"
 	"eventPlanner/internal/database"
-	"eventPlanner/internal/repository/implemContactRepository"
-	"eventPlanner/internal/repository/implemEventRepository"
-	"eventPlanner/internal/repository/implemUserRepository"
+	"eventPlanner/internal/repositories/implemContactRepository"
+	"eventPlanner/internal/repositories/implemEventRepository"
+	"eventPlanner/internal/repositories/implemUserRepository"
 	"eventPlanner/internal/router"
 	"eventPlanner/internal/services/implemContactService"
 	"eventPlanner/internal/services/implemEventService"
@@ -14,16 +14,13 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/sirupsen/logrus"
+	"log/slog"
 )
 
-func RunApp(cfg config.Config) {
-
+func RunApp(log *slog.Logger, cfg config.Config) {
+	log.Info("starting app")
 	dsn := cfg.DataBasePath
-	conn, err := database.ConnectDB(dsn)
-	if err != nil {
-		logrus.Fatalf("Unable to connect to database: %v\n", err)
-	}
+	conn := database.ConnectDB(log, dsn)
 	defer conn.Close(context.Background())
 
 	userRepo := implemUserRepository.NewUserRepository(conn)
