@@ -9,22 +9,22 @@ import (
 )
 
 func (s *eventService) CreateEvent(c echo.Context) error {
-	userID, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	organizerID, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid user ID")
 	}
 
 	event := new(models.Event)
-	if err := c.Bind(event); err != nil {
+	if err = c.Bind(event); err != nil {
 		return c.JSON(http.StatusBadRequest, "Invalid request")
 	}
-
-	if err := s.repo.CreateEvent(userID, *event); err != nil {
+	event, err = s.repo.CreateEvent(organizerID, *event)
+	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	for _, el := range event.ListMembers {
 		memberID, _ := strconv.ParseInt(el, 10, 64)
-		if err := s.repo.CreateEvent(memberID, *event); err != nil {
+		if err = s.repo.AddParticipant(memberID, event); err != nil {
 			log.Error(http.StatusInternalServerError, err.Error())
 		}
 	}

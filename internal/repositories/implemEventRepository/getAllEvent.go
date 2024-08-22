@@ -6,10 +6,17 @@ import (
 )
 
 const (
+	//getAllEventsQuery = `
+	//   SELECT id, name_event, shape, place, begin_time, duration
+	//   FROM events
+	//   WHERE user_id = $1
+	//
+	//`
 	getAllEventsQuery = `
-        SELECT id, name_event, shape, place, begin_time, duration
-        FROM events
-        WHERE user_id = $1
+        SELECT e.id, e.name_event, e.shape, e.place, e.begin_time, e.duration
+        FROM events e
+        FULL JOIN participation p ON e.id = p.event_id
+        WHERE p.user_id = $1
     `
 )
 
