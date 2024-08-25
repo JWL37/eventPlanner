@@ -102,11 +102,11 @@ services:
 #      - MINIO_ROOT_USER=minio
 #      - MINIO_ROOT_PASSWORD=miniopassword
 
-  my-go-app:
+  auth:
     build:
-      context: ../
+      context: ../auth
       dockerfile: Dockerfile
-    container_name: my-go-app
+    container_name: auth
     restart: always
     ports:
       - "8082:8082"
@@ -127,6 +127,56 @@ services:
 #      MINIO_ENDPOINT: http://minio:9000
 #      MINIO_ACCESS_KEY: minio
 #      MINIO_SECRET_KEY: miniopassword
+  events:
+    build:
+      context: ../events
+      dockerfile: Dockerfile
+    container_name: events
+    restart: always
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres
+      #      - zookeeper
+      #      - kafka
+      - redis
+    #      - minio
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+      #      KAFKA_BROKER: kafka:9092
+      REDIS_HOST: redis
+      REDIS_PASSWORD: redispassword
+  #      MINIO_ENDPOINT: http://minio:9000
+  #      MINIO_ACCESS_KEY: minio
+  #      MINIO_SECRET_KEY: miniopassword
+  contacts:
+    build:
+      context: ../contacts
+      dockerfile: Dockerfile
+    container_name: contacts
+    restart: always
+    ports:
+      - "8084:8084"
+    depends_on:
+      - postgres
+      #      - zookeeper
+      #      - kafka
+      - redis
+    #      - minio
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+      #      KAFKA_BROKER: kafka:9092
+      REDIS_HOST: redis
+      REDIS_PASSWORD: redispassword
+  #      MINIO_ENDPOINT: http://minio:9000
+  #      MINIO_ACCESS_KEY: minio
+  #      MINIO_SECRET_KEY: miniopassword
 
 volumes:
   caddy_data:

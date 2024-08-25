@@ -127,7 +127,7 @@ captures/
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-# google-services.json
+# google-service.json
 
 # Freeline
 freeline.py
@@ -314,7 +314,7 @@ flycheck_*.el
 # Workspace files are user-specific
 *.sublime-workspace
 
-# Project files should be checked into the repositories, unless a significant
+# Project files should be checked into the repository, unless a significant
 # proportion of contributors will probably not be using Sublime Text
 # *.sublime-project
 
@@ -758,7 +758,7 @@ PublishScripts/
 # except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
-#!**/[Pp]ackages/repositories.config
+#!**/[Pp]ackages/repository.config
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
